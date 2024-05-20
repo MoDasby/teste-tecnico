@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Página de Pessoa</title>
+</h:head>
+<h:body>
+    <div>
+        <p:dialog header="Adicionar Nova Pessoa" widgetVar="add-person-dlg">
+            <h:form id="form">
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="nome" value="Nome: " />
+                    <p:inputText id="nome" value="#{personBean.novaPessoa.nome}" />
+
+                    <p:outputLabel for="idade" value="Idade: " />
+                    <p:inputText id="idade" value="#{personBean.novaPessoa.idade}" />
+
+                    <p:outputLabel for="sexo" value="Sexo: " />
+                    <p:inputText id="sexo" value="#{personBean.novaPessoa.sexo}" />
+
+                    <p:outputLabel for="estado" value="Estado: " />
+                    <p:inputText id="estado" value="#{personBean.novaPessoa.endereco.estado}" />
+
+                    <p:outputLabel for="cidade" value="Cidade: " />
+                    <p:inputText id="cidade" value="#{personBean.novaPessoa.endereco.cidade}" />
+
+                    <p:outputLabel for="logradouro" value="Logradouro: " />
+                    <p:inputText id="logradouro" value="#{personBean.novaPessoa.endereco.logradouro}" />
+
+                    <p:outputLabel for="numero" value="Número: " />
+                    <p:inputText id="numero" value="#{personBean.novaPessoa.endereco.numero}" />
+
+                    <p:outputLabel for="cep" value="Cep: " />
+                    <p:inputText id="cep" value="#{personBean.novaPessoa.endereco.cep}" />
+                </p:panelGrid>
+
+                <p:commandButton
+                        value="Salvar"
+                        form="form"
+                        action="#{personBean.adicionarPessoa}"
+                        ajax="false"
+                        oncomplete="PF('add-person-dlg').hide()"
+                />
+            </h:form>
+        </p:dialog>
+
+        <p:dialog header="Editar Pessoa" widgetVar="edit-person-dlg">
+            <h:form id="edit_form">
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="edit_nome" value="Nome: " />
+                    <p:inputText id="edit_nome" value="#{personBean.novaPessoa.nome}" />
+
+                    <p:outputLabel for="edit_idade" value="Idade: " />
+                    <p:inputText id="edit_idade" value="#{personBean.novaPessoa.idade}" />
+
+                    <p:outputLabel for="edit_sexo" value="Sexo: " />
+                    <p:inputText id="edit_sexo" value="#{personBean.novaPessoa.sexo}" />
+
+                    <p:outputLabel for="edit_estado" value="Estado: " />
+                    <p:inputText id="edit_estado" value="#{personBean.novaPessoa.endereco.estado}" />
+
+                    <p:outputLabel for="edit_cidade" value="Cidade: " />
+                    <p:inputText id="edit_cidade" value="#{personBean.novaPessoa.endereco.cidade}" />
+
+                    <p:outputLabel for="edit_logradouro" value="Logradouro: " />
+                    <p:inputText id="edit_logradouro" value="#{personBean.novaPessoa.endereco.logradouro}" />
+
+                    <p:outputLabel for="edit_numero" value="Número: " />
+                    <p:inputText id="edit_numero" value="#{personBean.novaPessoa.endereco.numero}" />
+
+                    <p:outputLabel for="edit_cep" value="Cep: " />
+                    <p:inputText id="edit_cep" value="#{personBean.novaPessoa.endereco.cep}" />
+                </p:panelGrid>
+
+                <p:commandButton
+                        value="Salvar"
+                        form="form"
+                        action="#{personBean.editarPessoa}"
+                        ajax="false"
+                        oncomplete="PF('edit-person-dlg').hide()"
+                />
+            </h:form>
+        </p:dialog>
+
+        <p:commandButton
+                value="Adicionar pessoa"
+                type="button"
+                onclick="PF('add-person-dlg').show()"
+                icon="pi pi-save"
+        />
+
+        <p:dataTable value="#{personBean.pessoas}" var="pessoa">
+            <p:column headerText="Nome">
+                <h:outputText value="#{pessoa.nome}" />
+            </p:column>
+
+            <p:column headerText="Idade">
+                <h:outputText value="#{pessoa.idade}" />
+            </p:column>
+
+            <p:column headerText="Sexo">
+                <h:outputText value="#{pessoa.sexo}" />
+            </p:column>
+
+            <p:column headerText="Cidade">
+                <h:outputText value="#{pessoa.endereco.cidade}" />
+            </p:column>
+
+            <p:column headerText="Estado">
+                <h:outputText value="#{pessoa.endereco.estado}" />
+            </p:column>
+
+            <p:column headerText="CEP">
+                <h:outputText value="#{pessoa.endereco.cep}" />
+            </p:column>
+
+            <p:column headerText="Logradouro">
+                <h:outputText value="#{pessoa.endereco.logradouro}" />
+            </p:column>
+
+            <p:column headerText="Numero">
+                <h:outputText value="#{pessoa.endereco.numero}" />
+            </p:column>
+
+            <p:column headerText="*">
+                <p:panelGrid columns="2" style="border: none">
+                    <p:commandButton
+                            actionListener="#{personBean.prepararEdicao(pessoa)}"
+                            update=":edit_form"
+                            oncomplete="PF('edit-person-dlg').show()"
+                            icon="pi pi-user-edit"
+                    />
+
+                    <p:commandButton
+                            actionListener="#{personBean.deletar(pessoa)}"
+                            icon="pi pi-trash"
+                    />
+                </p:panelGrid>
+            </p:column>
+        </p:dataTable>
+    </div>
+</h:body>
+</html>
